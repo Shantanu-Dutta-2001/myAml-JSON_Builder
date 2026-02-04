@@ -1,0 +1,139 @@
+.form-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.task-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.task-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-500), var(--secondary-500));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.task-card:hover::before {
+    transform: scaleX(1);
+}
+
+.task-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.1) !important;
+    border-color: var(--primary-100);
+}
+
+::ng-deep .p-button-secondary-accent {
+    background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+    transition: all 0.3s ease;
+}
+
+::ng-deep .p-button-secondary-accent:hover {
+    background: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%) !important;
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+    transform: translateY(-2px);
+}
+
+::ng-deep .p-button-outlined {
+    border: 2px solid currentColor !important;
+}
+
+::ng-deep .p-button-text {
+    border: 2px solid transparent !important;
+}
+
+::ng-deep .p-button-text:hover {
+    border-color: transparent !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced Input Styling */
+::ng-deep input.p-inputtext {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+::ng-deep input.p-inputtext::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+/* Section Headers */
+.section-header {
+    position: relative;
+    padding-left: 1rem;
+}
+
+.section-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 60%;
+    background: linear-gradient(180deg, var(--primary-500), var(--secondary-500));
+    border-radius: 2px;
+}
+
+/* Subtask Container */
+.subtask-container {
+    background: linear-gradient(135deg, rgba(250, 245, 255, 0.8), rgba(245, 243, 255, 0.6));
+    border-radius: 12px;
+    padding: 1.25rem;
+    border-left: 4px solid var(--primary-500);
+    border: 1px solid rgba(124, 58, 237, 0.15);
+}
+
+/* Delete Button Enhancements */
+::ng-deep .p-button-danger.p-button-text {
+    color: #ef4444 !important;
+    border-radius: 999px !important;
+}
+
+::ng-deep .p-button-danger.p-button-text:hover {
+    background: rgba(239, 68, 68, 0.08) !important;
+    color: #dc2626 !important;
+}
+
+/* Tooltip Enhancements */
+::ng-deep .p-tooltip {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+}
+
+::ng-deep .p-tooltip .p-tooltip-text {
+    background: rgba(53, 59, 71, 0.523);
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 2px 8px !important;
+}

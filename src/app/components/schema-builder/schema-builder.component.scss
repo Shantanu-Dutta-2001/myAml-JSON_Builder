@@ -1,0 +1,30 @@
+.schema-container {
+    padding: 1rem 0;
+}
+
+.field-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(124, 58, 237, 0.1);
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: rgba(124, 58, 237, 0.3);
+    }
+}
+
+.field-group {
+    label {
+        letter-spacing: 0.5px;
+        opacity: 0.8;
+    }
+}
+
+::ng-deep .p-dropdown {
+    border-radius: 999px !important;
+}
+
+.empty-state {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+}

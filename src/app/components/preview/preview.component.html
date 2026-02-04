@@ -1,0 +1,18 @@
+<div class="preview-container h-full flex flex-column glass-card">
+    <div
+        class="preview-header p-4 border-bottom-1 border-white-alpha-20 flex justify-content-between align-items-center">
+        <h3 class="m-0 text-white font-bold flex align-items-center gap-2">
+            <i class="pi pi-code"></i> JSON Architect Output
+        </h3>
+        <div class="flex gap-2">
+            <button pButton icon="pi pi-copy" class="p-button-text p-button-rounded text-white"
+                (click)="copyToClipboard()" pTooltip="Copy to clipboard"></button>
+            <button pButton icon="pi pi-download" class="p-button-text p-button-rounded text-white"
+                (click)="downloadJson()" pTooltip="Download JSON"></button>
+        </div>
+    </div>
+
+    <div class="preview-content flex-1 p-4 overflow-auto custom-scrollbar">
+        <pre class="json-code text-white-alpha-90 text-sm m-0"><code>{{ jsonContent }}</code></pre>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="app-layout">
+    <app-hero></app-hero>
+
+    <div class="content-wrapper" id="builder-section">
+        <!-- Persistent Header / Navbar -->
+        <header class="main-header glass-header sticky top-0 z-5 custom-header">
+
+            <div class="flex justify-content-between align-items-center px-4 py-3">
+                <div class="logo-group flex align-items-center gap-2">
+                    <div class="logo-icon scale-in">
+                        <i class="pi pi-database text-3xl text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold m-0 text-white tracking-tight">MyAML <span
+                                class="logo-accent">Architect</span></h1>
+                        <span class="text-xs text-primary-100 opacity-80 uppercase tracking-widest font-semibold">JSON
+                            Builder</span>
+                    </div>
+                </div>
+
+                <div class="flex align-items-center gap-3">
+                    <!-- <app-visitor-counter></app-visitor-counter> -->
+                    <p-button label="Reset Builder" icon="pi pi-refresh" (onClick)="reset()"
+                        styleClass="p-button-danger p-button-text p-button-sm custom-btn rounded-pill px-4"></p-button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content with Tabs (v21 Architecture) -->
+        <div class="flex-1 overflow-hidden main-content">
+            <p-tabs [value]="0" styleClass="custom-tabs">
+                <p-tablist>
+                    <p-tab [value]="0">
+                        <i class="pi pi-sitemap mr-2"></i>
+                        <span>1. Blueprint</span>
+                    </p-tab>
+                    <p-tab [value]="1">
+                        <i class="pi pi-pencil mr-2"></i>
+                        <span>2. Editor</span>
+                    </p-tab>
+                </p-tablist>
+
+                <p-tabpanels>
+                    <p-tabpanel [value]="0">
+                        <div class="p-5 overflow-auto custom-scrollbar h-full">
+                            <app-schema-builder></app-schema-builder>
+                        </div>
+                    </p-tabpanel>
+
+                    <p-tabpanel [value]="1">
+                        <div class="flex h-full overflow-hidden">
+                            <!-- Left Panel: Dynamic Form -->
+                            <div class="flex-1 p-5 overflow-auto custom-scrollbar fade-in">
+                                <app-form-editor></app-form-editor>
+                            </div>
+                            <!-- Right Panel: Real-time Preview -->
+                            <div class="preview-panel w-5 p-0 overflow-auto custom-scrollbar hidden md:block">
+                                <app-preview></app-preview>
+                            </div>
+                        </div>
+                    </p-tabpanel>
+                </p-tabpanels>
+            </p-tabs>
+        </div>
+    </div>
+</div>

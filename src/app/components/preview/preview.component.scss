@@ -1,0 +1,40 @@
+.preview-container {
+    background: rgba(30, 27, 75, 0.4);
+    /* Softer Dark Indigo */
+    border-radius: 0;
+    border: none;
+    border-left: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.preview-header {
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.preview-content {
+    background: rgba(15, 23, 42, 0.3);
+}
+
+.json-code {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+    line-height: 1.6;
+    tab-size: 2;
+}
+
+.custom-scrollbar {
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(168, 85, 247, 0.3);
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgba(168, 85, 247, 0.5);
+    }
+}

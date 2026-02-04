@@ -1,0 +1,127 @@
+<div class="schema-builder-container" *ngIf="schema$ | async as schema">
+    <div class="header-box mb-4">
+        <h2 class="text-2xl font-bold m-0 text-900 flex align-items-center gap-2">
+            <i class="pi pi-sitemap text-primary-500"></i> Data Blueprint
+        </h2>
+        <p class="text-sm text-color-secondary mt-1 mb-0">Define the keys and types for your JSON structure</p>
+    </div>
+
+    <div class="grid">
+        <div *ngFor="let field of schema.fields; let i = index; trackBy: trackByFn"
+            class="col-12 md:col-6 lg:col-4 mb-3">
+            <div class="field-card fade-in glass-card p-4 border-round-xl relative h-full flex flex-column"
+                style="border-top: 4px solid var(--primary-500)">
+
+                <div class="flex justify-content-between align-items-start mb-3">
+                    <span class="text-xs font-bold text-primary-600 uppercase tracking-wider">Field #{{ i + 1 }}</span>
+                    <p-button icon="pi pi-trash" severity="danger" [text]="true" size="small" (onClick)="removeField(i)"
+                        pTooltip="Delete field"></p-button>
+                </div>
+
+                <div class="flex flex-column gap-3 flex-1">
+                    <div class="field-group">
+                        <label class="block font-bold text-700 mb-1 text-xs uppercase">Field Key</label>
+                        <input pInputText type="text" [(ngModel)]="field.key"
+                            (ngModelChange)="updateField(i, {key: $event})" placeholder="e.g. id, users"
+                            class="p-inputtext-sm w-full" />
+                    </div>
+
+                    <div class="field-group">
+                        <label class="block font-bold text-700 mb-1 text-xs uppercase">Display Label</label>
+                        <input pInputText type="text" [(ngModel)]="field.label"
+                            (ngModelChange)="updateField(i, {label: $event})" placeholder="e.g. User List"
+                            class="p-inputtext-sm w-full" />
+                    </div>
+
+                    <div class="field-group">
+                        <label class="block font-bold text-700 mb-1 text-xs uppercase">Data Type</label>
+                        <p-select [options]="fieldTypes" [ngModel]="field.type"
+                            (ngModelChange)="onTypeChange(i, $event, field)" styleClass="p-select-sm w-full"
+                            appendTo="body"></p-select>
+                    </div>
+
+                    <!-- Object Children -->
+                    <div *ngIf="field.type === 'object'"
+                        class="nested-section mt-1 p-3 border-round bg-white-alpha-20 border-left-3 border-primary-500">
+                        <div class="flex justify-content-between align-items-center mb-2">
+                            <span class="text-xs font-bold uppercase text-primary-700">Properties</span>
+                            <p-button icon="pi pi-plus" [text]="true" size="small" (onClick)="addField(field.children)"
+                                label="Add Prop"></p-button>
+                        </div>
+                        <div class="flex flex-column gap-2">
+                            <div *ngFor="let child of field.children; let j = index; trackBy: trackByFn"
+                                class="flex gap-1 align-items-center">
+                                <input pInputText type="text" [(ngModel)]="child.key" placeholder="Key"
+                                    class="p-inputtext-sm flex-1" style="min-width: 0;" />
+                                <p-select [options]="fieldTypes" [(ngModel)]="child.type"
+                                    styleClass="p-select-sm flex-1" appendTo="body"
+                                    (ngModelChange)="onTypeChange(j, $event, child)"
+                                    [style]="{'min-width': '0'}"></p-select>
+                                <p-button icon="pi pi-times" [text]="true" severity="danger"
+                                    (onClick)="removeField(j, field.children)"></p-button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Array Item Schema (Recursive-ish) -->
+                    <div *ngIf="field.type === 'array'"
+                        class="nested-section mt-1 p-3 border-round bg-primary-50 border-left-3 border-primary-400">
+                        <span class="text-xs font-bold uppercase text-primary-700 block mb-2">Item Blueprint</span>
+                        <div *ngFor="let itemSchema of field.children; let j = index; trackBy: trackByFn"
+                            class="flex flex-column gap-2">
+                            <p-select [options]="fieldTypes" [(ngModel)]="itemSchema.type"
+                                styleClass="p-select-sm w-full" appendTo="body"
+                                (ngModelChange)="onTypeChange(j, $event, itemSchema)"></p-select>
+
+                            <!-- Recursive nesting if array item is object -->
+                            <div *ngIf="itemSchema.type === 'object'"
+                                class="pl-3 border-left-2 border-primary-200 mt-1">
+                                <p-button label="Add Object Prop" icon="pi pi-plus" [text]="true" size="small"
+                                    (onClick)="addField(itemSchema.children)"></p-button>
+                                <div *ngFor="let grandchild of itemSchema.children; let k = index; trackBy: trackByFn"
+                                    class="flex gap-1 mt-1">
+                                    <input pInputText type="text" [(ngModel)]="grandchild.key" placeholder="Key"
+                                        class="p-inputtext-sm flex-1" style="min-width: 0;" />
+                                    <p-select [options]="fieldTypes" [(ngModel)]="grandchild.type"
+                                        styleClass="p-select-sm flex-1" appendTo="body"
+                                        [style]="{'min-width': '0'}"></p-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enum Options -->
+                    <div *ngIf="field.type === 'enum'"
+                        class="nested-section mt-1 p-3 border-round bg-secondary-50 border-left-3 border-secondary-400">
+                        <div class="flex justify-content-between align-items-center mb-2">
+                            <span class="text-xs font-bold uppercase text-secondary-700">Options</span>
+                            <p-button icon="pi pi-plus" [text]="true" size="small"
+                                (onClick)="field.options?.push({label: 'New', value: ''})" label="Add"></p-button>
+                        </div>
+                        <div class="flex flex-column gap-2 overflow-x-auto pb-1">
+                            <div *ngFor="let opt of field.options; let j = index; trackBy: trackByFn"
+                                class="flex gap-1 align-items-center">
+                                <input pInputText type="text" [(ngModel)]="opt.label" placeholder="Label"
+                                    class="p-inputtext-sm flex-1" style="min-width: 0;" />
+                                <input pInputText type="text" [(ngModel)]="opt.value" placeholder="Value"
+                                    class="p-inputtext-sm flex-1" style="min-width: 0;" />
+                                <p-button icon="pi pi-times" [text]="true" severity="danger"
+                                    (onClick)="field.options?.splice(j, 1)"></p-button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Field Placeholder -->
+        <div class="col-12 md:col-6 lg:col-4 mb-3">
+            <div (click)="addField()"
+                class="add-field-card h-full flex flex-column align-items-center justify-content-center p-5 cursor-pointer border-round-xl border-dashed shadow-sm transition-all min-h-15rem">
+                <i class="pi pi-plus-circle text-4xl mb-2"></i>
+                <span class="text-lg uppercase tracking-wider">Add Structure Field</span>
+            </div>
+        </div>
+    </div>
+</div>

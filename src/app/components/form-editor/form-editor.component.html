@@ -1,0 +1,105 @@
+<div class="form-container fade-in" *ngIf="vm$ | async as vm">
+    <div class="header-box mb-5">
+        <h2 class="text-2xl font-bold m-0 text-900 flex align-items-center gap-2">
+            <i class="pi pi-pencil text-primary-500"></i> Enter Your Data
+        </h2>
+        <p class="text-sm text-color-secondary mt-1 mb-0">Fill in the fields based on your defined structure</p>
+    </div>
+
+    <div class="grid formgrid p-fluid">
+        <div *ngFor="let field of vm.schema.fields; trackBy: trackByFn" class="col-12 mb-4">
+            <div class="surface-card p-4 border-round-xl shadow-sm glass-card overflow-hidden"
+                style="border-top: 4px solid var(--primary-500)">
+
+                <ng-container
+                    *ngTemplateOutlet="fieldTemplate; context: { field: field, data: vm.data, parentPath: '' }"></ng-container>
+            </div>
+        </div>
+
+        <div *ngIf="vm.schema.fields.length === 0" class="col-12 text-center py-8">
+            <h3 class="text-xl font-semibold text-600">No structure defined yet</h3>
+            <p class="text-sm text-400">Head over to the "Blueprint" tab to define your JSON schema first.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Recursive Field Template -->
+<ng-template #fieldTemplate let-field="field" let-data="data" let-parentPath="parentPath">
+    <div [class]="'field-wrapper ' + (parentPath ? 'nested-field mt-3 pl-3 border-left-2 border-primary-200' : '')">
+        <label [for]="parentPath + field.key"
+            class="font-bold text-800 mb-2 block text-md flex align-items-center gap-2">
+            {{ field.label || field.key }}
+        </label>
+
+        <!-- String -->
+        <div *ngIf="field.type === 'string'">
+            <input pInputText [id]="parentPath + field.key" type="text" [(ngModel)]="data[field.key]"
+                [placeholder]="field.placeholder || 'Enter value...'" />
+        </div>
+
+        <!-- Number / Integer -->
+        <div *ngIf="field.type === 'number' || field.type === 'integer'">
+            <p-inputNumber [id]="parentPath + field.key" [(ngModel)]="data[field.key]"
+                [placeholder]="field.placeholder || '0'" [showButtons]="true"
+                [useGrouping]="field.type === 'number'"></p-inputNumber>
+        </div>
+
+        <!-- Boolean -->
+        <div *ngIf="field.type === 'boolean'" class="flex align-items-center gap-2 py-1">
+            <p-checkbox [binary]="true" [(ngModel)]="data[field.key]" [inputId]="parentPath + field.key"></p-checkbox>
+            <label [for]="parentPath + field.key" class="text-sm cursor-pointer mb-0">Enabled</label>
+        </div>
+
+        <!-- Date -->
+        <div *ngIf="field.type === 'date'">
+            <p-datepicker [id]="parentPath + field.key" [(ngModel)]="data[field.key]" appendTo="body" [showIcon]="true"
+                iconDisplay="input"></p-datepicker>
+        </div>
+
+        <!-- Enum -->
+        <div *ngIf="field.type === 'enum' && field.options">
+            <p-select [id]="parentPath + field.key" [options]="field.options" [(ngModel)]="data[field.key]"
+                optionLabel="label" optionValue="value" class="w-full"></p-select>
+        </div>
+
+        <!-- Object (Recursive) -->
+        <div *ngIf="field.type === 'object' && field.children">
+            <div *ngFor="let child of field.children; trackBy: trackByFn">
+                <ng-container
+                    *ngTemplateOutlet="fieldTemplate; context: { field: child, data: data[field.key], parentPath: parentPath + field.key + '_' }"></ng-container>
+            </div>
+        </div>
+
+        <!-- Array (Recursive Items) -->
+        <div *ngIf="field.type === 'array' && field.children && field.children[0]" class="subtask-container mt-2">
+            <div class="flex justify-content-between align-items-center mb-3">
+                <span class="text-xs font-bold text-600 uppercase tracking-wide">Entries</span>
+                <p-button label="Add Item" icon="pi pi-plus" [text]="true" size="small" (onClick)="addItem(field, data)"
+                    styleClass="p-button-sm"></p-button>
+            </div>
+
+            <div class="flex flex-column gap-3">
+                <div *ngFor="let item of data[field.key]; let j = index; trackBy: trackByFn"
+                    class="flex gap-2 align-items-start fade-in pb-2 border-bottom-1 border-primary-50">
+                    <div class="flex-1">
+                        <!-- Recursively render the item based on the FIRST child schema -->
+                        <ng-container
+                            *ngTemplateOutlet="fieldTemplate; context: { field: { ...field.children[0], key: j, label: 'Item #' + (j+1) }, data: data[field.key], parentPath: parentPath + field.key + '_' + j + '_' }"></ng-container>
+                    </div>
+                    <p-button icon="pi pi-trash" [text]="true" severity="danger" size="small"
+                        (onClick)="data[field.key].splice(j, 1)"></p-button>
+                </div>
+
+                <div *ngIf="!data[field.key] || data[field.key].length === 0"
+                    class="text-center py-3 border-round bg-white-alpha-10 border-1 border-dashed border-primary-200">
+                    <p class="text-xs text-400 m-0">No items added yet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Null -->
+        <div *ngIf="field.type === 'null'" class="p-2 border-round bg-surface-100 text-xs text-500 italic">
+            Value is restricted to null.
+        </div>
+    </div>
+</ng-template>

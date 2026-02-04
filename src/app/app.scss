@@ -1,0 +1,148 @@
+.app-container {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    position: relative;
+    background: #faf5ff;
+}
+
+.builder-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 100;
+    /* Stacks above hero content */
+}
+
+.builder-content {
+    min-height: calc(100vh - 80px);
+}
+
+.header-gradient {
+    /* Using a solid color that matches the hero's average tone for seamless transition */
+    background: #a855f7 !important;
+    position: sticky !important;
+    top: 0;
+    z-index: 9999 !important;
+    overflow: visible !important;
+    /* Remove constraints for potential blur effects */
+}
+
+/* Removing the animated radial highlight which caused a visual seam */
+.header-gradient::before {
+    display: none !important;
+}
+
+.logo-container {
+    position: relative;
+}
+
+.logo-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.logo-icon i {
+    font-size: 24px;
+    color: white;
+}
+
+::ng-deep .reset-btn {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    backdrop-filter: blur(10px);
+    border-radius: 999px !important;
+    padding: 5px !important;
+}
+
+::ng-deep .reset-btn:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    transform: translateY(-2px);
+}
+
+.main-content {
+    background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 50%, #ede9fe 100%);
+}
+
+.preview-panel {
+    background: linear-gradient(180deg, #ffffff 0%, #faf5ff 100%);
+    border-left: 1px solid rgba(124, 58, 237, 0.1);
+    box-shadow: -4px 0 20px rgba(124, 58, 237, 0.05);
+}
+
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-500) var(--surface-ground);
+}
+
+::ng-deep .custom-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 999px !important;
+    padding: 0.5rem 1.25rem !important;
+    /* Balanced padding */
+    color: white !important;
+    transition: all 0.3s ease !important;
+}
+
+::ng-deep .custom-btn:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    transform: translateY(-2px);
+}
+
+::ng-deep .custom-tabs {
+    border: none !important;
+    background: transparent !important;
+
+    .p-tablist {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: none !important;
+        padding: 0 1rem !important;
+        backdrop-filter: blur(10px);
+    }
+
+    .p-tabpanels {
+        background: transparent !important;
+        padding: 0 !important;
+        height: calc(100vh - 145px);
+        /* Adjusted for header + nav */
+    }
+
+    .p-tab {
+        background: transparent !important;
+        border: none !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+        font-weight: 600 !important;
+        padding: 1.25rem 2rem !important;
+        transition: all 0.3s ease !important;
+        border-bottom: 3px solid transparent !important;
+
+        &:not(.p-disabled):focus {
+            box-shadow: none !important;
+        }
+
+        &.p-tab-active {
+            color: white !important;
+            border-bottom-color: white !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+    }
+}
+.custom-header {
+    background: #bf82fb;
+}
