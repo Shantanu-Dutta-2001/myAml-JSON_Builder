@@ -84,7 +84,7 @@
                     <div class="flex-1">
                         <!-- Recursively render the item based on the FIRST child schema -->
                         <ng-container
-                            *ngTemplateOutlet="fieldTemplate; context: { field: { ...field.children[0], key: j, label: 'Item #' + (j+1) }, data: data[field.key], parentPath: parentPath + field.key + '_' + j + '_' }"></ng-container>
+                            *ngTemplateOutlet="fieldTemplate; context: { field: getChildField(field, j),data: data[field.key],parentPath: parentPath + field.key + '_' + j + '_' }"></ng-container>
                     </div>
                     <p-button icon="pi pi-trash" [text]="true" severity="danger" size="small"
                         (onClick)="data[field.key].splice(j, 1)"></p-button>

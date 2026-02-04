@@ -60,4 +60,12 @@ export class FormEditorComponent implements OnInit {
     trackByFn(index: number, item: any) {
         return index;
     }
+
+    getChildField(field: any, j: number) {
+        return {
+            ...field.children[0],
+            key: j,
+            label: 'Item #' + (j + 1)
+        };
+    }
 }
