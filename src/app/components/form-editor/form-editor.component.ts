@@ -7,7 +7,6 @@ import { InputText } from 'primeng/inputtext';
 import { InputNumber } from 'primeng/inputnumber';
 import { Checkbox } from 'primeng/checkbox';
 import { Button } from 'primeng/button';
-import { Tooltip } from 'primeng/tooltip';
 import { Select } from 'primeng/select';
 import { DatePicker } from 'primeng/datepicker';
 import { Observable, combineLatest } from 'rxjs';
@@ -16,7 +15,7 @@ import { map } from 'rxjs/operators';
 @Component({
     selector: 'app-form-editor',
     standalone: true,
-    imports: [CommonModule, FormsModule, InputText, InputNumber, Checkbox, Button, Tooltip, Select, DatePicker],
+    imports: [CommonModule, FormsModule, InputText, InputNumber, Checkbox, Button, Select, DatePicker],
     templateUrl: './form-editor.component.html',
     styleUrls: ['./form-editor.component.scss']
 })

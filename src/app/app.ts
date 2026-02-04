@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormEditorComponent } from './components/form-editor/form-editor.component';
 import { PreviewComponent } from './components/preview/preview.component';
 import { HeroComponent } from './components/hero/hero.component';
-import { VisitorCounterComponent } from './components/visitor-counter/visitor-counter.component';
 import { JsonStateService } from './services/json-state.service';
 import { VisitorTrackingService } from './services/visitor-tracking.service';
 import { SchemaBuilderComponent } from './components/schema-builder/schema-builder.component';
@@ -20,7 +19,6 @@ import { DynamicData } from './models/schema.model';
     FormEditorComponent,
     PreviewComponent,
     HeroComponent,
-    VisitorCounterComponent,
     ButtonModule,
     SchemaBuilderComponent,
     TabsModule
