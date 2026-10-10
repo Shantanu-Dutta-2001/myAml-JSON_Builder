@@ -40,21 +40,18 @@ export class FormEditorComponent implements OnInit {
         this.jsonState.updateField(parentKey, parentData);
     }
 
-    onArrayItemUpdate(key: string, index: number, value: any) {
-        this.jsonState.updateArrayField(key, index, value);
-    }
-
     addItem(field: SchemaField, data: any) {
-        if (field.children && field.children[0]) {
-            this.jsonState.addItemToArray(field.key, field.children[0]);
-            // If the data object is local (passed via recursive template), we might need to manually push
-            // if it's not the root data. Direct binding in template usually handles root state, 
-            // but for nested we rely on the service to trigger the update.
+        if (!field.children || !field.children[0]) return;
+        if (!Array.isArray(data[field.key])) {
+            data[field.key] = [];
         }
+        data[field.key].push(this.jsonState.getDefaultValueForType(field.children[0]));
+        this.jsonState.notifyDataChanged();
     }
 
-    removeItem(key: string, index: number) {
-        this.jsonState.removeItemFromArray(key, index);
+    removeItem(field: SchemaField, data: any, index: number) {
+        data[field.key].splice(index, 1);
+        this.jsonState.notifyDataChanged();
     }
 
     trackByFn(index: number, item: any) {

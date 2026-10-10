@@ -70,31 +70,11 @@ export class JsonStateService {
         this.dataSubject.next(newData);
     }
 
-    updateArrayField(key: string, index: number, value: any) {
-        const newData = { ...this.currentData };
-        if (Array.isArray(newData[key])) {
-            const newArray = [...newData[key]];
-            newArray[index] = value;
-            newData[key] = newArray;
-            this.dataSubject.next(newData);
-        }
-    }
-
-    addItemToArray(key: string, itemSchema?: SchemaField) {
-        const newData = { ...this.currentData };
-        if (Array.isArray(newData[key])) {
-            const defaultValue = itemSchema ? this.getDefaultValueForType(itemSchema) : '';
-            newData[key] = [...newData[key], defaultValue];
-            this.dataSubject.next(newData);
-        }
-    }
-
-    removeItemFromArray(key: string, index: number) {
-        const newData = { ...this.currentData };
-        if (Array.isArray(newData[key])) {
-            newData[key] = newData[key].filter((_: any, i: number) => i !== index);
-            this.dataSubject.next(newData);
-        }
+    // Call after mutating a nested object/array within currentData directly
+    // (e.g. from a recursive template that holds a reference into the tree),
+    // to force state$ subscribers to re-evaluate.
+    notifyDataChanged() {
+        this.dataSubject.next(this.dataSubject.getValue());
     }
 
     reset() {
@@ -129,7 +109,7 @@ export class JsonStateService {
         return data;
     }
 
-    private getDefaultValueForType(field: SchemaField): any {
+    getDefaultValueForType(field: SchemaField): any {
         switch (field.type) {
             case 'number':
             case 'integer': return 0;
