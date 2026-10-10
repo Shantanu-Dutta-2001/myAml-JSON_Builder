@@ -7,6 +7,7 @@ import { DynamicData } from '../../models/schema.model';
 // PrimeNG
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
+import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-preview',
@@ -18,7 +19,7 @@ import { TooltipModule } from 'primeng/tooltip';
 export class PreviewComponent {
     state$: Observable<DynamicData>;
 
-    constructor(private jsonState: JsonStateService) {
+    constructor(private jsonState: JsonStateService, private messageService: MessageService) {
         this.state$ = this.jsonState.state$;
     }
 
@@ -27,9 +28,10 @@ export class PreviewComponent {
     }
 
     copyToClipboard() {
-        navigator.clipboard.writeText(this.jsonContent).then(() => {
-            // You could add a toast notification here if PrimeNG Toast is imported
-        });
+        navigator.clipboard.writeText(this.jsonContent).then(
+            () => this.messageService.add({ severity: 'success', summary: 'Copied', detail: 'JSON copied to clipboard', life: 2500 }),
+            () => this.messageService.add({ severity: 'error', summary: 'Copy failed', detail: 'Could not access the clipboard', life: 3000 })
+        );
     }
 
     downloadJson() {
@@ -40,5 +42,6 @@ export class PreviewComponent {
         a.download = `myaml-data-${new Date().toISOString().split('T')[0]}.json`;
         a.click();
         window.URL.revokeObjectURL(url);
+        this.messageService.add({ severity: 'success', summary: 'Downloaded', detail: 'JSON file saved', life: 2500 });
     }
 }

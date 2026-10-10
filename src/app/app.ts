@@ -4,10 +4,10 @@ import { FormEditorComponent } from './components/form-editor/form-editor.compon
 import { PreviewComponent } from './components/preview/preview.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { JsonStateService } from './services/json-state.service';
-import { VisitorTrackingService } from './services/visitor-tracking.service';
 import { SchemaBuilderComponent } from './components/schema-builder/schema-builder.component';
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
 import { Observable } from 'rxjs';
 import { DynamicData } from './models/schema.model';
 
@@ -21,7 +21,8 @@ import { DynamicData } from './models/schema.model';
     HeroComponent,
     ButtonModule,
     SchemaBuilderComponent,
-    TabsModule
+    TabsModule,
+    ToastModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -30,10 +31,7 @@ export class App implements OnInit {
   title = 'MyAML Builder';
   state$: Observable<DynamicData>;
 
-  constructor(
-    private jsonState: JsonStateService,
-    private visitorTracking: VisitorTrackingService
-  ) {
+  constructor(private jsonState: JsonStateService) {
     this.state$ = this.jsonState.state$;
   }
 
