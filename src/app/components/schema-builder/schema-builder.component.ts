@@ -73,7 +73,8 @@ export class SchemaBuilderComponent implements OnInit {
         this.jsonState.updateSchema({ fields: [...this.jsonState.currentSchema.fields] });
     }
 
-    onTypeChange(index: number, type: FieldType, field: SchemaField) {
+    onTypeChange(type: FieldType, field: SchemaField) {
+        field.type = type;
         if (type === 'object') {
             if (!field.children) {
                 field.children = [
@@ -97,7 +98,7 @@ export class SchemaBuilderComponent implements OnInit {
             delete field.children;
             delete field.options;
         }
-        this.updateField(index, { type });
+        this.jsonState.updateSchema({ fields: [...this.jsonState.currentSchema.fields] });
     }
 
     removeField(index: number, parentFields?: SchemaField[]) {

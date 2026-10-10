@@ -36,7 +36,7 @@
                     <div class="field-group">
                         <label class="block font-bold text-700 mb-1 text-xs uppercase">Data Type</label>
                         <p-select [options]="fieldTypes" [ngModel]="field.type"
-                            (ngModelChange)="onTypeChange(i, $event, field)" styleClass="p-select-sm w-full"
+                            (ngModelChange)="onTypeChange($event, field)" styleClass="p-select-sm w-full"
                             appendTo="body"></p-select>
                     </div>
 
@@ -55,7 +55,7 @@
                                     class="p-inputtext-sm flex-1" style="min-width: 0;" />
                                 <p-select [options]="fieldTypes" [(ngModel)]="child.type"
                                     styleClass="p-select-sm flex-1" appendTo="body"
-                                    (ngModelChange)="onTypeChange(j, $event, child)"
+                                    (ngModelChange)="onTypeChange($event, child)"
                                     [style]="{'min-width': '0'}"></p-select>
                                 <p-button icon="pi pi-times" [text]="true" severity="danger"
                                     (onClick)="removeField(j, field.children)"></p-button>
@@ -71,7 +71,7 @@
                             class="flex flex-column gap-2">
                             <p-select [options]="fieldTypes" [(ngModel)]="itemSchema.type"
                                 styleClass="p-select-sm w-full" appendTo="body"
-                                (ngModelChange)="onTypeChange(j, $event, itemSchema)"></p-select>
+                                (ngModelChange)="onTypeChange($event, itemSchema)"></p-select>
 
                             <!-- Recursive nesting if array item is object -->
                             <div *ngIf="itemSchema.type === 'object'"
@@ -84,6 +84,7 @@
                                         class="p-inputtext-sm flex-1" style="min-width: 0;" />
                                     <p-select [options]="fieldTypes" [(ngModel)]="grandchild.type"
                                         styleClass="p-select-sm flex-1" appendTo="body"
+                                        (ngModelChange)="onTypeChange($event, grandchild)"
                                         [style]="{'min-width': '0'}"></p-select>
                                 </div>
                             </div>
