@@ -72,7 +72,7 @@
 
         <!-- Array (Recursive Items) -->
         <div *ngIf="field.type === 'array' && field.children && field.children[0]" class="subtask-container mt-2">
-            <div class="flex justify-content-between align-items-center mb-3">
+            <div class="flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                 <span class="text-xs font-bold text-600 uppercase tracking-wide">Entries</span>
                 <p-button label="Add Item" icon="pi pi-plus" [text]="true" size="small" (onClick)="addItem(field, data)"
                     styleClass="p-button-sm"></p-button>
@@ -81,7 +81,7 @@
             <div class="flex flex-column gap-3">
                 <div *ngFor="let item of data[field.key]; let j = index; trackBy: trackByFn"
                     class="flex gap-2 align-items-start fade-in pb-2 border-bottom-1 border-primary-50">
-                    <div class="flex-1">
+                    <div class="flex-1 min-w-0">
                         <!-- Recursively render the item based on the FIRST child schema -->
                         <ng-container
                             *ngTemplateOutlet="fieldTemplate; context: { field: getChildField(field, j),data: data[field.key],parentPath: parentPath + field.key + '_' + j + '_' }"></ng-container>
