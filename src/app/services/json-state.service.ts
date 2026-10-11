@@ -77,6 +77,50 @@ export class JsonStateService {
         this.dataSubject.next(this.dataSubject.getValue());
     }
 
+    // --- KEY RENAME ACTIONS ---
+    // Carry an already-entered value forward under its field's new key, by migrating it in
+    // currentData *before* updateSchema() runs — so initDataFromSchema finds it under the new
+    // key and preserves it, instead of treating the renamed field as brand new and defaulting it.
+    // A no-op oldKey/newKey (empty, or unchanged) is skipped rather than risking stray "" keys.
+
+    renameRootKey(oldKey: string, newKey: string) {
+        if (!oldKey || !newKey || oldKey === newKey) return;
+        const data = this.currentData;
+        if (!Object.prototype.hasOwnProperty.call(data, oldKey)) return;
+        const newData = { ...data };
+        newData[newKey] = newData[oldKey];
+        delete newData[oldKey];
+        this.dataSubject.next(newData);
+    }
+
+    renameNestedObjectKey(parentKey: string, oldKey: string, newKey: string) {
+        if (!oldKey || !newKey || oldKey === newKey) return;
+        const parentObj = this.currentData[parentKey];
+        if (!parentObj || typeof parentObj !== 'object' || Array.isArray(parentObj)) return;
+        if (!Object.prototype.hasOwnProperty.call(parentObj, oldKey)) return;
+        const newParentObj = { ...parentObj };
+        newParentObj[newKey] = newParentObj[oldKey];
+        delete newParentObj[oldKey];
+        this.dataSubject.next({ ...this.currentData, [parentKey]: newParentObj });
+    }
+
+    // Renames a key across every entry of an array field (e.g. a prop on an array's object item schema).
+    renameArrayItemKey(arrayKey: string, oldKey: string, newKey: string) {
+        if (!oldKey || !newKey || oldKey === newKey) return;
+        const arr = this.currentData[arrayKey];
+        if (!Array.isArray(arr)) return;
+        const newArr = arr.map((item: any) => {
+            if (item && typeof item === 'object' && Object.prototype.hasOwnProperty.call(item, oldKey)) {
+                const newItem = { ...item };
+                newItem[newKey] = newItem[oldKey];
+                delete newItem[oldKey];
+                return newItem;
+            }
+            return item;
+        });
+        this.dataSubject.next({ ...this.currentData, [arrayKey]: newArr });
+    }
+
     reset() {
         this.dataSubject.next(this.initDataFromSchema(this.currentSchema));
     }

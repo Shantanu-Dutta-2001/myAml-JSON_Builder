@@ -119,6 +119,41 @@ export class SchemaBuilderComponent implements OnInit {
         this.jsonState.updateSchema({ fields: newFields });
     }
 
+    // --- KEY RENAME HANDLERS ---
+    // One-way [ngModel] + these handlers (instead of [(ngModel)]) so `field.key` still holds the
+    // OLD key when the handler runs, letting us migrate any already-entered data to the new key
+    // before the schema resync, instead of losing it.
+
+    onRootKeyChange(field: SchemaField, newKey: string) {
+        const oldKey = field.key;
+        field.key = newKey;
+        this.jsonState.renameRootKey(oldKey, newKey);
+        this.jsonState.updateSchema({ fields: [...this.jsonState.currentSchema.fields] });
+    }
+
+    onChildKeyChange(parentField: SchemaField, child: SchemaField, newKey: string) {
+        const oldKey = child.key;
+        child.key = newKey;
+        this.jsonState.renameNestedObjectKey(parentField.key, oldKey, newKey);
+        this.jsonState.updateSchema({ fields: [...this.jsonState.currentSchema.fields] });
+    }
+
+    onGrandchildKeyChange(arrayField: SchemaField, grandchild: SchemaField, newKey: string) {
+        const oldKey = grandchild.key;
+        grandchild.key = newKey;
+        this.jsonState.renameArrayItemKey(arrayField.key, oldKey, newKey);
+        this.jsonState.updateSchema({ fields: [...this.jsonState.currentSchema.fields] });
+    }
+
+    // --- VALIDATION ---
+    // Non-blocking: flags empty/duplicate keys visually without preventing the edit.
+
+    isKeyInvalid(key: string, siblings: SchemaField[] | undefined, ownIndex: number): boolean {
+        if (!key || !key.trim()) return true;
+        if (!siblings) return false;
+        return siblings.some((f, idx) => idx !== ownIndex && f.key === key);
+    }
+
     trackByFn(index: number) {
         return index;
     }
