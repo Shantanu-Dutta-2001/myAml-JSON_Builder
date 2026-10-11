@@ -10,6 +10,7 @@ import { InputText } from 'primeng/inputtext';
 import { Button } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { Tooltip } from 'primeng/tooltip';
+import { Checkbox } from 'primeng/checkbox';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
@@ -21,7 +22,8 @@ import { ConfirmationService } from 'primeng/api';
         Button,
         InputText,
         Select,
-        Tooltip
+        Tooltip,
+        Checkbox
     ],
     templateUrl: './schema-builder.component.html',
     styleUrl: './schema-builder.component.scss'
@@ -176,6 +178,24 @@ export class SchemaBuilderComponent implements OnInit {
         grandchild.key = newKey;
         this.jsonState.renameArrayItemKey(arrayField.key, oldKey, newKey);
         this.jsonState.updateSchema({ fields: [...this.jsonState.currentSchema.fields] });
+    }
+
+    // --- REQUIRED / PLACEHOLDER ---
+    // These mutate the field reference directly and resync (same pattern as onTypeChange), which
+    // works correctly at any nesting level without needing an index into the wrong array.
+
+    toggleRequired(field: SchemaField, required: boolean) {
+        field.required = required;
+        this.jsonState.updateSchema({ fields: [...this.jsonState.currentSchema.fields] });
+    }
+
+    updatePlaceholder(field: SchemaField, placeholder: string) {
+        field.placeholder = placeholder;
+        this.jsonState.updateSchema({ fields: [...this.jsonState.currentSchema.fields] });
+    }
+
+    supportsPlaceholder(field: SchemaField): boolean {
+        return field.type === 'string' || field.type === 'number' || field.type === 'integer';
     }
 
     // --- VALIDATION ---

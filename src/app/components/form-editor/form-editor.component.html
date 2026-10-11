@@ -29,12 +29,14 @@
         <label [for]="parentPath + field.key"
             class="font-bold text-800 mb-2 block text-md flex align-items-center gap-2">
             {{ field.label || field.key }}
+            <span *ngIf="field.required" class="text-red-500" aria-label="required">*</span>
         </label>
 
         <!-- String -->
         <div *ngIf="field.type === 'string'">
             <input pInputText [id]="parentPath + field.key" type="text" [(ngModel)]="data[field.key]"
-                [placeholder]="field.placeholder || 'Enter value...'" />
+                [placeholder]="field.placeholder || 'Enter value...'"
+                [invalid]="isRequiredEmpty(field, data)" />
         </div>
 
         <!-- Number / Integer -->
@@ -62,6 +64,8 @@
                 optionLabel="label" optionValue="value" class="w-full"></p-select>
         </div>
 
+        <small *ngIf="isRequiredEmpty(field, data)" class="text-red-500 text-xs block mt-1">This field is required.</small>
+
         <!-- Object (Recursive) -->
         <div *ngIf="field.type === 'object' && field.children">
             <div *ngFor="let child of field.children; trackBy: trackByFn">
@@ -87,7 +91,7 @@
                             *ngTemplateOutlet="fieldTemplate; context: { field: getChildField(field, j),data: data[field.key],parentPath: parentPath + field.key + '_' + j + '_' }"></ng-container>
                     </div>
                     <p-button icon="pi pi-trash" [text]="true" severity="danger" size="small"
-                        (onClick)="removeItem(field, data, j)"></p-button>
+                        (onClick)="removeItem(field, data, j)" pTooltip="Remove item"></p-button>
                 </div>
 
                 <div *ngIf="!data[field.key] || data[field.key].length === 0"

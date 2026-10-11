@@ -1,7 +1,7 @@
 # 🧪 MyAML: My Application Modeling Laboratory
 
-[![Angular](https://img.shields.io/badge/Angular-19-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.io/)
-[![PrimeNG](https://img.shields.io/badge/PrimeNG-21-3B82F6?style=for-the-badge&logo=primeng&logoColor=white)](https://primeng.org/)
+[![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.io/)
+[![PrimeNG](https://img.shields.io/badge/PrimeNG-20-3B82F6?style=for-the-badge&logo=primeng&logoColor=white)](https://primeng.org/)
 [![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)](https://github.com/Shantanu-Dutta-2001/myAml)
 [![License](https://img.shields.io/badge/License-MIT-gray?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
@@ -23,8 +23,8 @@
 
 | Component | Technology |
 | :--- | :--- |
-| **Framework** | [Angular 19](https://angular.io/) (Standalone) |
-| **UI Kit** | [PrimeNG 21](https://primeng.org/) |
+| **Framework** | [Angular 20](https://angular.io/) (Standalone) |
+| **UI Kit** | [PrimeNG 20](https://primeng.org/) |
 | **Styling** | SCSS + PrimeFlex + Glassmorphism Tokens |
 | **State** | Reactive RxJS State Management |
 
