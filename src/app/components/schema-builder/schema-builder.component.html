@@ -14,8 +14,8 @@
 
                 <div class="flex justify-content-between align-items-start mb-3">
                     <span class="text-xs font-bold text-primary-600 uppercase tracking-wider">Field #{{ i + 1 }}</span>
-                    <p-button icon="pi pi-trash" severity="danger" [text]="true" size="small" (onClick)="removeField(i)"
-                        pTooltip="Delete field"></p-button>
+                    <p-button icon="pi pi-trash" severity="danger" [text]="true" size="small"
+                        (onClick)="confirmRemoveField(field, i)" pTooltip="Delete field"></p-button>
                 </div>
 
                 <div class="flex flex-column gap-3 flex-1">
@@ -64,8 +64,9 @@
                                         styleClass="p-select-sm flex-1" appendTo="body"
                                         (ngModelChange)="onTypeChange($event, child)"
                                         [style]="{'min-width': '0'}"></p-select>
-                                    <p-button icon="pi pi-times" [text]="true" severity="danger"
-                                        (onClick)="removeField(j, field.children)"></p-button>
+                                    <p-button icon="pi pi-trash" [text]="true" severity="danger"
+                                        (onClick)="confirmRemoveField(child, j, field.children, childParentLabel(field))"
+                                        pTooltip="Delete property"></p-button>
                                 </div>
                                 <small *ngIf="isKeyInvalid(child.key, field.children, j)" class="text-red-500 text-xs">
                                     {{ child.key ? 'Duplicate key' : 'Key is required' }}
@@ -100,6 +101,9 @@
                                             styleClass="p-select-sm flex-1" appendTo="body"
                                             (ngModelChange)="onTypeChange($event, grandchild)"
                                             [style]="{'min-width': '0'}"></p-select>
+                                        <p-button icon="pi pi-trash" [text]="true" severity="danger"
+                                            (onClick)="confirmRemoveField(grandchild, k, itemSchema.children, arrayItemParentLabel(field))"
+                                            pTooltip="Delete property"></p-button>
                                     </div>
                                     <small *ngIf="isKeyInvalid(grandchild.key, itemSchema.children, k)" class="text-red-500 text-xs">
                                         {{ grandchild.key ? 'Duplicate key' : 'Key is required' }}
@@ -124,7 +128,7 @@
                                     class="p-inputtext-sm flex-1" style="min-width: 0;" />
                                 <input pInputText type="text" [(ngModel)]="opt.value" placeholder="Value"
                                     class="p-inputtext-sm flex-1" style="min-width: 0;" />
-                                <p-button icon="pi pi-times" [text]="true" severity="danger"
+                                <p-button icon="pi pi-trash" [text]="true" severity="danger"
                                     (onClick)="field.options?.splice(j, 1)"></p-button>
                             </div>
                         </div>

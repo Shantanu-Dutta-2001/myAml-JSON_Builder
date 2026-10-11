@@ -8,6 +8,7 @@ import { SchemaBuilderComponent } from './components/schema-builder/schema-build
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { Observable } from 'rxjs';
 import { DynamicData } from './models/schema.model';
 
@@ -22,7 +23,8 @@ import { DynamicData } from './models/schema.model';
     ButtonModule,
     SchemaBuilderComponent,
     TabsModule,
-    ToastModule
+    ToastModule,
+    ConfirmDialogModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

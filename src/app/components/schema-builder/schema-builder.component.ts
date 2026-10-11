@@ -10,6 +10,7 @@ import { InputText } from 'primeng/inputtext';
 import { Button } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { Tooltip } from 'primeng/tooltip';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
     selector: 'app-schema-builder',
@@ -41,7 +42,7 @@ export class SchemaBuilderComponent implements OnInit {
         { label: 'Null', value: 'null' }
     ];
 
-    constructor(private jsonState: JsonStateService) {
+    constructor(private jsonState: JsonStateService, private confirmationService: ConfirmationService) {
         this.schema$ = this.jsonState.schema$;
     }
 
@@ -110,6 +111,38 @@ export class SchemaBuilderComponent implements OnInit {
             const newFields = currentSchema.fields.filter((_, i) => i !== index);
             this.jsonState.updateSchema({ fields: newFields });
         }
+    }
+
+    // Confirms before removing a field at any level (root, object child, or array-item grandchild),
+    // naming both the field and where it lives so the warning is specific rather than generic.
+    confirmRemoveField(field: SchemaField, index: number, parentFields?: SchemaField[], parentDescription?: string) {
+        const keyLabel = this.escapeHtml(field.key || '(unnamed field)');
+        const fromClause = parentDescription ? ` from ${parentDescription}` : '';
+        this.confirmationService.confirm({
+            header: 'Delete Field?',
+            message: `Field "<strong>${keyLabel}</strong>" will be deleted${fromClause}. This cannot be undone.`,
+            icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Delete',
+            rejectLabel: 'Cancel',
+            acceptButtonStyleClass: 'p-button-danger',
+            rejectButtonStyleClass: 'p-button-secondary p-button-outlined',
+            accept: () => this.removeField(index, parentFields)
+        });
+    }
+
+    private escapeHtml(text: string): string {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Human-readable "where this field lives" fragments for the confirm-delete message, per level.
+    childParentLabel(parentField: SchemaField): string {
+        return `"${this.escapeHtml(parentField.label || parentField.key)}"`;
+    }
+
+    arrayItemParentLabel(arrayField: SchemaField): string {
+        return `the item structure of "${this.escapeHtml(arrayField.label || arrayField.key)}"`;
     }
 
     updateField(index: number, changes: Partial<SchemaField>) {

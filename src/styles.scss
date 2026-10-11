@@ -310,3 +310,18 @@ body ::ng-deep {
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 0.95));
     border: none;
 }
+
+/* Delete Confirm Dialog Overrides */
+::ng-deep .delete-confirm-dialog.p-dialog {
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 95vw;
+}
+
+::ng-deep .delete-confirm-dialog .p-dialog-header {
+    border-top: 4px solid #ef4444;
+}
+
+::ng-deep .delete-confirm-dialog .p-dialog-content {
+    word-break: break-word;
+}
