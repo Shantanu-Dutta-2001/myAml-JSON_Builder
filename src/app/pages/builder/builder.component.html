@@ -1,6 +1,4 @@
 <div class="app-layout">
-    <p-toast></p-toast>
-    <p-confirmDialog [breakpoints]="{'640px': '92vw'}" styleClass="delete-confirm-dialog"></p-confirmDialog>
     <app-hero></app-hero>
 
     <div class="content-wrapper" id="builder-section">
@@ -15,9 +13,17 @@
                     <div>
                         <h1 class="text-xl font-bold m-0 text-white tracking-tight">MyAML <span
                                 class="logo-accent">Laboratory</span></h1>
-                        <span
-                            class="text-xs text-primary-100 opacity-80 uppercase tracking-widest font-semibold">Modeling
-                            Laboratory</span>
+                        <div class="flex align-items-center flex-wrap gap-2">
+                            <span
+                                class="text-xs text-primary-100 opacity-80 uppercase tracking-widest font-semibold">Modeling
+                                Laboratory</span>
+                            <a href="release-notes" target="_blank" rel="noopener" class="update-pill"
+                                [attr.aria-label]="'View last update (' + latestVersion + '), opens in a new tab'">
+                                <span class="update-pill-dot" aria-hidden="true"></span>
+                                <span>View Last Update</span>
+                                <i class="pi pi-arrow-up-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
 

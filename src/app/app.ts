@@ -1,45 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormEditorComponent } from './components/form-editor/form-editor.component';
-import { PreviewComponent } from './components/preview/preview.component';
-import { HeroComponent } from './components/hero/hero.component';
-import { JsonStateService } from './services/json-state.service';
-import { SchemaBuilderComponent } from './components/schema-builder/schema-builder.component';
-import { TabsModule } from 'primeng/tabs';
-import { ButtonModule } from 'primeng/button';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { Observable } from 'rxjs';
-import { DynamicData } from './models/schema.model';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormEditorComponent,
-    PreviewComponent,
-    HeroComponent,
-    ButtonModule,
-    SchemaBuilderComponent,
-    TabsModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  imports: [RouterOutlet, ToastModule, ConfirmDialogModule],
+  template: `
+    <p-toast></p-toast>
+    <p-confirmDialog [breakpoints]="{'640px': '92vw'}" styleClass="delete-confirm-dialog"></p-confirmDialog>
+    <router-outlet></router-outlet>
+  `
 })
-export class App implements OnInit {
-  title = 'MyAML Builder';
-  state$: Observable<DynamicData>;
-
-  constructor(private jsonState: JsonStateService) {
-    this.state$ = this.jsonState.state$;
-  }
-
-  ngOnInit(): void { }
-
-  reset() {
-    this.jsonState.reset();
-  }
-}
+export class App { }
