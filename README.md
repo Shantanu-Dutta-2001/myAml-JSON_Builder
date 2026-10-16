@@ -79,6 +79,22 @@ MyAML Architect utilizes a **Violet Glass** theme, balancing professional clarit
 
 ---
 
+## 🆕 Updates
+
+- **Required & Placeholder Options**: Every schema field (root, object child, and array-item property) now has a *Required* checkbox and a custom *Placeholder* input (for String, Number, and Integer types). The Form Editor marks required fields with an asterisk and shows a non-blocking "This field is required." hint when they're empty.
+- **Delete Confirmations**: Removing a schema field at any nesting level now asks for confirmation first. The dialog names the field and where it lives (e.g. its parent object or array item structure).
+- **Schema Key Validation**: Field keys that are empty or duplicated among siblings are flagged visually without blocking the edit.
+- **Rename Preservation**: Renaming a field's key carries its entered value over to the new key (root fields, object children, and properties across every array item) instead of resetting it to a default.
+- **Toast Feedback**: Copying JSON to the clipboard or downloading it as a file (`myaml-data-YYYY-MM-DD.json`) now shows a success or error toast.
+- **Nested Array Fix**: *Add Item* / *Remove Item* now work for arrays at any depth (arrays inside objects or inside other arrays). Previously they did nothing, or wrote to the wrong root-level key.
+- **Nested Type-Change Fix**: Changing the type of a nested field no longer overwrites unrelated top-level fields. Type changes on array-item properties now reach the generated data correctly.
+- **Mobile Layout Fix**: Nested array entries in the Form Editor now wrap cleanly on small screens with no horizontal overflow or clipped *Add Item* controls.
+- **Accessibility Polish**: Icon-only buttons, such as *Remove item* in the Form Editor, now have tooltips, matching the Schema Builder and Preview panels.
+- **Cleanup**: Removed the visitor counter and its tracking service.
+- **Tooling**: Dependencies are aligned to Angular 20.x and PrimeNG 20.x, and unit tests now run on Vitest (`npm test`) with a jsdom setup.
+
+---
+
 ### 🙌 Credits
 Developed with ❤️ by [Shantanu Dutta](https://github.com/Shantanu-Dutta-2001)
 
