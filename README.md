@@ -16,6 +16,7 @@
 - **⚡ Live Preview**: Instant JSON feedback as you iterate on your schema or data.
 - **💎 Premium UI**: A curated "Violet Glass" design system built for focus and aesthetic pleasure.
 - **⌨️ Developer Friendly**: Optimized focus management for seamless typing in complex nested forms.
+- **📰 Release Notes**: A *View Last Update* pill in the header opens a version-by-version changelog in a new tab.
 
 ---
 
@@ -27,6 +28,8 @@
 | **UI Kit** | [PrimeNG 20](https://primeng.org/) |
 | **Styling** | SCSS + PrimeFlex + Glassmorphism Tokens |
 | **State** | Reactive RxJS State Management |
+| **Routing** | Angular Router (`/` builder, `/release-notes`) |
+| **Testing** | [Vitest](https://vitest.dev/) + jsdom |
 
 ---
 
@@ -34,13 +37,34 @@
 
 ```text
 src/app/
+├── app.ts                # Root shell (router outlet, toast, confirm dialog)
+├── app.routes.ts         # Routes: '' → Builder, 'release-notes' → Release Notes
+├── pages/
+│   ├── builder/          # Main builder page (header, Blueprint & Editor tabs)
+│   └── release-notes/    # Version-by-version changelog page
 ├── components/
 │   ├── form-editor/      # Recursive data entry engine
 │   ├── schema-builder/   # Visual structure designer
 │   ├── preview/          # Reactive JSON output
 │   └── hero/             # Polished landing elements
+├── data/
+│   └── release-notes.ts  # Release notes content (newest first)
 ├── services/             # Centralized JSON State (RxJS)
 └── models/               # Strongly-typed schema definitions
+```
+
+### 📰 Adding a Release Note
+Add a new entry at the **top** of `RELEASE_NOTES` in [`src/app/data/release-notes.ts`](src/app/data/release-notes.ts). The first entry is shown as the latest update.
+
+```ts
+{
+    version: 'v1.4.0',
+    date: '2026-11-01', // YYYY-MM-DD
+    sections: [
+        { title: 'Enhancement', items: ['Describe the new feature.'] },
+        { title: 'Bug fixes & Improvements', items: ['Describe the fix.'] }
+    ]
+}
 ```
 
 ---
@@ -66,6 +90,13 @@ src/app/
    npm start
    ```
    *Visit [http://localhost:4200](http://localhost:4200) to start building.*
+4. **Run tests**
+   ```bash
+   npm test
+   ```
+
+### 🌐 Deployment Note
+The app uses path-based routing, so your host must serve `index.html` for unknown paths. Otherwise opening `/release-notes` directly returns a 404. For example, on Netlify add a `_redirects` file with `/* /index.html 200`. On Vercel, add a rewrite of `/(.*)` to `/index.html`.
 
 ---
 
@@ -81,6 +112,8 @@ MyAML Architect utilizes a **Violet Glass** theme, balancing professional clarit
 
 ## 🆕 Updates
 
+- **Release Notes Page**: A *View Last Update* pill in the header opens a new **Release Note** page in a new tab. It lists every version with its date, sections and changes, and marks the newest with a *Latest* badge. *Back to Builder* closes the tab, or returns to the builder if the page was opened directly.
+- **Routing**: The app now uses the Angular Router. The builder moved to its own page and the root component became a thin shell.
 - **Required & Placeholder Options**: Every schema field (root, object child, and array-item property) now has a *Required* checkbox and a custom *Placeholder* input (for String, Number, and Integer types). The Form Editor marks required fields with an asterisk and shows a non-blocking "This field is required." hint when they're empty.
 - **Delete Confirmations**: Removing a schema field at any nesting level now asks for confirmation first. The dialog names the field and where it lives (e.g. its parent object or array item structure).
 - **Schema Key Validation**: Field keys that are empty or duplicated among siblings are flagged visually without blocking the edit.
