@@ -19,9 +19,7 @@ export class ReleaseNotesComponent implements OnInit {
         this.title.setTitle('Release Notes - MyAML Laboratory');
     }
 
-    // This page is opened in a new tab from the builder header, so "Back" closes it to return to the
-    // builder tab. Browsers only let script close tabs they consider script-closable (e.g. a fresh tab
-    // opened from a link); if the page was reached directly, fall back to navigating to the builder.
+    // Close this tab (opened from the header); if the browser refuses, navigate to the builder.
     backToBuilder(event: Event) {
         event.preventDefault();
         window.close();
@@ -30,7 +28,7 @@ export class ReleaseNotesComponent implements OnInit {
         }, 150);
     }
 
-    // Parse as local date parts so "2026-10-11" never shifts a day in negative-UTC timezones.
+    // Parse as local date so it never shifts a day across timezones.
     formatDate(iso: string): string {
         const [y, m, d] = iso.split('-').map(Number);
         return new Date(y, m - 1, d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });

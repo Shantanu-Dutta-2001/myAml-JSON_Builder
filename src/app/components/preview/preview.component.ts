@@ -3,11 +3,16 @@ import { CommonModule } from '@angular/common';
 import { JsonStateService } from '../../services/json-state.service';
 import { Observable } from 'rxjs';
 import { DynamicData } from '../../models/schema.model';
+import { JsonLine, pathKey, renderJsonLines, requiredEmptyPaths } from '../../utils/json-display';
 
 // PrimeNG
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
+
+interface PreviewLine extends JsonLine {
+    flagged: boolean;
+}
 
 @Component({
     selector: 'app-preview',
@@ -19,12 +24,39 @@ import { MessageService } from 'primeng/api';
 export class PreviewComponent {
     state$: Observable<DynamicData>;
 
+    // Re-tokenize only when the output changes.
+    private cacheKey = '';
+    private cachedLines: PreviewLine[] = [];
+
     constructor(private jsonState: JsonStateService, private messageService: MessageService) {
         this.state$ = this.jsonState.state$;
     }
 
     get jsonContent(): string {
         return JSON.stringify(this.jsonState.currentData, null, 2);
+    }
+
+    get lines(): PreviewLine[] {
+        const data = this.jsonState.currentData;
+        const flagged = requiredEmptyPaths(this.jsonState.currentSchema.fields, data);
+        const key = this.jsonContent + '\u0000' + flagged.join('|');
+        if (key !== this.cacheKey) {
+            const flaggedSet = new Set(flagged);
+            this.cachedLines = renderJsonLines(data).map(line => ({
+                ...line,
+                flagged: !!line.path && flaggedSet.has(pathKey(line.path))
+            }));
+            this.cacheKey = key;
+        }
+        return this.cachedLines;
+    }
+
+    get flaggedCount(): number {
+        return this.lines.filter(l => l.flagged).length;
+    }
+
+    trackByIndex(index: number) {
+        return index;
     }
 
     copyToClipboard() {

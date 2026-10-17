@@ -70,18 +70,13 @@ export class JsonStateService {
         this.dataSubject.next(newData);
     }
 
-    // Call after mutating a nested object/array within currentData directly
-    // (e.g. from a recursive template that holds a reference into the tree),
-    // to force state$ subscribers to re-evaluate.
+    // Call after mutating currentData in place so subscribers update.
     notifyDataChanged() {
         this.dataSubject.next(this.dataSubject.getValue());
     }
 
     // --- KEY RENAME ACTIONS ---
-    // Carry an already-entered value forward under its field's new key, by migrating it in
-    // currentData *before* updateSchema() runs — so initDataFromSchema finds it under the new
-    // key and preserves it, instead of treating the renamed field as brand new and defaulting it.
-    // A no-op oldKey/newKey (empty, or unchanged) is skipped rather than risking stray "" keys.
+    // Move data to the new key before updateSchema() so it isn't reset. Empty/unchanged keys are skipped.
 
     renameRootKey(oldKey: string, newKey: string) {
         if (!oldKey || !newKey || oldKey === newKey) return;
@@ -104,7 +99,7 @@ export class JsonStateService {
         this.dataSubject.next({ ...this.currentData, [parentKey]: newParentObj });
     }
 
-    // Renames a key across every entry of an array field (e.g. a prop on an array's object item schema).
+    // Rename a key in every entry of an array field.
     renameArrayItemKey(arrayKey: string, oldKey: string, newKey: string) {
         if (!oldKey || !newKey || oldKey === newKey) return;
         const arr = this.currentData[arrayKey];

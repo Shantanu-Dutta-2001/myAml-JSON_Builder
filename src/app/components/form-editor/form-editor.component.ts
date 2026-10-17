@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { JsonStateService } from '../../services/json-state.service';
 import { DynamicSchema, DynamicData, SchemaField } from '../../models/schema.model';
-import { InputText } from 'primeng/inputtext';
 import { InputNumber } from 'primeng/inputnumber';
 import { Checkbox } from 'primeng/checkbox';
-import { Button } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { DatePicker } from 'primeng/datepicker';
 import { Tooltip } from 'primeng/tooltip';
@@ -16,7 +14,7 @@ import { map } from 'rxjs/operators';
 @Component({
     selector: 'app-form-editor',
     standalone: true,
-    imports: [CommonModule, FormsModule, InputText, InputNumber, Checkbox, Button, Select, DatePicker, Tooltip],
+    imports: [CommonModule, FormsModule, InputNumber, Checkbox, Select, DatePicker, Tooltip],
     templateUrl: './form-editor.component.html',
     styleUrls: ['./form-editor.component.scss']
 })
@@ -55,6 +53,11 @@ export class FormEditorComponent implements OnInit {
         this.jsonState.notifyDataChanged();
     }
 
+    // Label tag, e.g. "string", "list".
+    typeTag(type: string): string {
+        return type === 'array' ? 'list' : type === 'object' ? 'group' : type;
+    }
+
     trackByFn(index: number, item: any) {
         return index;
     }
@@ -67,8 +70,7 @@ export class FormEditorComponent implements OnInit {
         };
     }
 
-    // Non-blocking: flags a required field with no value so the user can see what's missing,
-    // without preventing them from doing anything else (there's no submit step to gate here).
+    // Non-blocking: only flags an empty required field.
     isRequiredEmpty(field: SchemaField, data: any): boolean {
         if (!field.required || !data) return false;
         const val = data[field.key];

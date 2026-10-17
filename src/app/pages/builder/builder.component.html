@@ -1,74 +1,85 @@
 <div class="app-layout">
     <app-hero></app-hero>
 
-    <div class="content-wrapper" id="builder-section">
+    <div class="workspace" id="builder-section">
         <!-- Persistent Header / Navbar -->
-        <header class="main-header glass-header sticky top-0 z-5 custom-header">
-
-            <div class="flex justify-content-between align-items-center px-4 py-3">
-                <div class="logo-group flex align-items-center gap-2">
-                    <div class="logo-icon scale-in overflow-hidden border-circle border-1 border-primary-200">
-                        <img src="logo.png" alt="MyAML Logo" class="w-2rem h-2rem object-cover block">
+        <header class="topbar">
+            <div class="topbar-row">
+                <div class="brand">
+                    <span class="brand-mark">
+                        <img src="logo.svg" alt="MyAML Logo">
+                    </span>
+                    <div class="brand-text">
+                        <div class="brand-title">MyAML <span class="brand-accent">Laboratory</span></div>
+                        <div class="brand-sub">// modeling laboratory</div>
                     </div>
-                    <div>
-                        <h1 class="text-xl font-bold m-0 text-white tracking-tight">MyAML <span
-                                class="logo-accent">Laboratory</span></h1>
-                        <div class="flex align-items-center flex-wrap gap-2">
-                            <span
-                                class="text-xs text-primary-100 opacity-80 uppercase tracking-widest font-semibold">Modeling
-                                Laboratory</span>
-                            <a href="release-notes" target="_blank" rel="noopener" class="update-pill"
-                                [attr.aria-label]="'View last update (' + latestVersion + '), opens in a new tab'">
-                                <span class="update-pill-dot" aria-hidden="true"></span>
-                                <span>View Last Update</span>
-                                <i class="pi pi-arrow-up-right" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
+                    <a href="release-notes" target="_blank" rel="noopener" class="update-pill"
+                        [attr.aria-label]="'View last update (' + latestVersion + '), opens in a new tab'">
+                        <span class="update-pill-dot" aria-hidden="true"></span>
+                        <span>changelog</span>
+                        <i class="pi pi-arrow-up-right" aria-hidden="true"></i>
+                    </a>
                 </div>
 
-                <div class="flex align-items-center gap-3">
-                    <p-button label="Reset Builder" icon="pi pi-refresh" (onClick)="reset()"
-                        styleClass="p-button-danger p-button-text p-button-sm custom-btn rounded-pill px-4"></p-button>
-                </div>
+                <button type="button" class="btn btn-danger btn-sm" (click)="reset()">
+                    <i class="pi pi-refresh" aria-hidden="true"></i>
+                    <span>reset</span>
+                </button>
+            </div>
+
+            <div class="tabs" role="tablist" aria-label="Builder steps">
+                @for (tab of tabs; track tab.id) {
+                    <button type="button" role="tab" class="tab" [id]="'tab-' + tab.id"
+                        [class.is-active]="activeTab === tab.id" [attr.aria-selected]="activeTab === tab.id"
+                        [attr.aria-controls]="'panel-' + tab.id" [tabindex]="activeTab === tab.id ? 0 : -1"
+                        (click)="selectTab(tab.id)" (keydown)="onTabKeydown($event)">
+                        <span class="tab-num">{{ tab.num }}</span> {{ tab.file }}
+                    </button>
+                }
             </div>
         </header>
 
-        <!-- Main Content with Tabs (v21 Architecture) -->
-        <div class="flex-1 overflow-hidden main-content">
-            <p-tabs [value]="0" styleClass="custom-tabs">
-                <p-tablist>
-                    <p-tab [value]="0">
-                        <i class="pi pi-sitemap mr-2"></i>
-                        <span>1. Blueprint</span>
-                    </p-tab>
-                    <p-tab [value]="1">
-                        <i class="pi pi-pencil mr-2"></i>
-                        <span>2. Editor</span>
-                    </p-tab>
-                </p-tablist>
+        <main class="workspace-body">
+            @if (activeTab === 'blueprint') {
+                <div role="tabpanel" id="panel-blueprint" aria-labelledby="tab-blueprint" class="panel">
+                    <app-schema-builder></app-schema-builder>
+                </div>
+            } @else {
+                <div role="tabpanel" id="panel-editor" aria-labelledby="tab-editor" class="panel">
+                    <div class="view-switch" role="group" aria-label="Choose what to show">
+                        <button type="button" class="view-btn" [class.is-active]="editorView === 'data'"
+                            [attr.aria-pressed]="editorView === 'data'" (click)="editorView = 'data'">
+                            <i class="pi pi-pencil" aria-hidden="true"></i> data
+                        </button>
+                        <button type="button" class="view-btn" [class.is-active]="editorView === 'json'"
+                            [attr.aria-pressed]="editorView === 'json'" (click)="editorView = 'json'">
+                            <i class="pi pi-code" aria-hidden="true"></i> output.json
+                        </button>
+                    </div>
 
-                <p-tabpanels>
-                    <p-tabpanel [value]="0">
-                        <div class="p-5 overflow-auto custom-scrollbar h-full">
-                            <app-schema-builder></app-schema-builder>
+                    <div class="editor-grid" [attr.data-view]="editorView">
+                        <!-- Left Panel: Dynamic Form -->
+                        <div class="editor-form">
+                            <app-form-editor></app-form-editor>
                         </div>
-                    </p-tabpanel>
+                        <!-- Right Panel: Real-time Preview -->
+                        <aside class="editor-preview">
+                            <app-preview></app-preview>
+                        </aside>
+                    </div>
+                </div>
+            }
+        </main>
 
-                    <p-tabpanel [value]="1">
-                        <div class="flex h-full overflow-hidden">
-                            <!-- Left Panel: Dynamic Form -->
-                            <div class="flex-1 p-5 overflow-auto custom-scrollbar fade-in">
-                                <app-form-editor></app-form-editor>
-                            </div>
-                            <!-- Right Panel: Real-time Preview -->
-                            <div class="preview-panel w-5 p-0 overflow-auto custom-scrollbar hidden md:block">
-                                <app-preview></app-preview>
-                            </div>
-                        </div>
-                    </p-tabpanel>
-                </p-tabpanels>
-            </p-tabs>
-        </div>
+        <!-- IDE-style status bar -->
+        @let s = status;
+        <footer class="statusbar" aria-label="Status">
+            <span class="sb-state" [class.is-bad]="!s.ok">{{ s.ok ? '✓' : '✗' }} {{ s.label }}</span>
+            @for (m of s.meta; track $index) {
+                <span class="sb-meta">{{ m }}</span>
+            }
+            <span class="sb-spacer"></span>
+            <span class="sb-meta sb-file">{{ s.file }} · utf-8</span>
+        </footer>
     </div>
 </div>

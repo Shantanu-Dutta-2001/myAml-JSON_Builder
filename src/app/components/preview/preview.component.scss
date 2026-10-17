@@ -1,40 +1,112 @@
 .preview-container {
-    background: rgba(30, 27, 75, 0.4);
-    /* Softer Dark Indigo */
-    border-radius: 0;
-    border: none;
-    border-left: 1px solid rgba(139, 92, 246, 0.2);
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - var(--chrome-h) - var(--statusbar-h) - 48px);
+    min-height: 320px;
 }
 
-.preview-header {
-    background: rgba(139, 92, 246, 0.1);
+.title-comment {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.title-actions {
+    display: inline-flex;
+    gap: var(--sp-1);
+    margin-left: auto;
 }
 
 .preview-content {
-    background: rgba(15, 23, 42, 0.3);
+    flex: 1;
+    overflow: auto;
+    padding: var(--sp-3) 0;
+    background: var(--c-surface-sunken);
+
+    &:focus-visible {
+        outline-offset: -2px;
+    }
 }
 
-.json-code {
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
-    line-height: 1.6;
+.code {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--fs-sm);
+    line-height: 1.75;
     tab-size: 2;
 }
 
-.custom-scrollbar {
-    &::-webkit-scrollbar {
-        width: 6px;
-    }
+.code-line {
+    display: flex;
+    min-width: max-content;
+    padding-right: var(--sp-4);
 
-    &::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.1);
-    }
+    &.is-flagged {
+        background: var(--error-a10);
 
-    &::-webkit-scrollbar-thumb {
-        background: rgba(168, 85, 247, 0.3);
-        border-radius: 10px;
+        .ln {
+            color: var(--c-error);
+        }
     }
+}
 
-    &::-webkit-scrollbar-thumb:hover {
-        background: rgba(168, 85, 247, 0.5);
+.ln {
+    flex-shrink: 0;
+    width: 3.25rem;
+    padding-right: var(--sp-4);
+    text-align: right;
+    color: var(--c-faint);
+    user-select: none;
+}
+
+.lc {
+    white-space: pre;
+}
+
+.tk-key {
+    color: var(--syn-key);
+}
+
+.tk-str {
+    color: var(--syn-string);
+}
+
+.tk-num {
+    color: var(--syn-number);
+}
+
+.tk-bool,
+.tk-null {
+    color: var(--syn-bool);
+}
+
+.tk-punct {
+    color: var(--syn-punct);
+}
+
+.cursor {
+    height: 1.1em;
+}
+
+.preview-footer {
+    padding: var(--sp-2) var(--sp-4);
+    font-size: var(--fs-xs);
+    border-top: 1px solid var(--c-border);
+    background: var(--c-surface);
+}
+
+.ok-text {
+    color: var(--c-success);
+}
+
+.err-text {
+    color: var(--c-error);
+}
+
+@media (max-width: 960px) {
+    .preview-container {
+        max-height: none;
     }
 }

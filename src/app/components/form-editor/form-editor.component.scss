@@ -1,139 +1,203 @@
 .form-container {
     max-width: 900px;
-    margin: 0 auto;
 }
 
-.task-card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 2px solid #e2e8f0;
-    position: relative;
-    overflow: hidden;
+.data-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
 }
 
-.task-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-500), var(--secondary-500));
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
+.data-card {
+    padding: var(--sp-5);
 }
 
-.task-card:hover::before {
-    transform: scaleX(1);
+/* ---- labels ---- */
+.data-label {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: var(--sp-2);
 }
 
-.task-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.1) !important;
-    border-color: var(--primary-100);
-}
-
-::ng-deep .p-button-secondary-accent {
-    background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%) !important;
-    border: none !important;
-    color: white !important;
+.data-label-text {
+    font-size: var(--fs-md);
     font-weight: 700;
-    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
-    transition: all 0.3s ease;
+    color: var(--c-fg);
 }
 
-::ng-deep .p-button-secondary-accent:hover {
-    background: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%) !important;
-    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
-    transform: translateY(-2px);
+.data-key,
+.data-type {
+    font-size: var(--fs-xs);
 }
 
-::ng-deep .p-button-outlined {
-    border: 2px solid currentColor !important;
+.data-key {
+    color: var(--c-muted);
 }
 
-::ng-deep .p-button-text {
-    border: 2px solid transparent !important;
+.req {
+    color: var(--c-error);
+    font-weight: 700;
 }
 
-::ng-deep .p-button-text:hover {
-    border-color: transparent !important;
+.nested-field {
+    margin-top: var(--sp-4);
 }
 
-.fade-in {
-    animation: fadeIn 0.5s ease-in;
+/* ---- inputs ---- */
+.value-input {
+    max-width: 34rem;
 }
 
-@keyframes fadeIn {
+/* PrimeNG inputs fill the prompt wrapper */
+:host ::ng-deep .value-input {
+    .p-inputnumber,
+    .p-datepicker,
+    .p-select {
+        width: 100%;
+    }
+
+    .p-inputnumber-input,
+    .p-datepicker-input {
+        padding-left: 30px;
+    }
+}
+
+.bool-value {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-height: var(--control-h);
+}
+
+.bool-label {
+    font-size: var(--fs-sm);
+    color: var(--c-fg-secondary);
+    cursor: pointer;
+}
+
+.null-value {
+    display: flex;
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-3);
+    font-size: var(--fs-sm);
+    background: var(--c-surface-sunken);
+    border: 1px dashed var(--c-border-strong);
+    border-radius: var(--radius-sm);
+}
+
+/* ---- groups & lists ---- */
+.group-body {
+    margin-top: var(--sp-1);
+    margin-left: var(--sp-1);
+}
+
+.list-block {
+    margin-top: var(--sp-1);
+    padding: var(--sp-4);
+    background: var(--c-surface-sunken);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+
+    /* lighter tint per nesting level */
+    .list-block {
+        background: var(--c-surface-raised);
+    }
+}
+
+.list-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-3);
+}
+
+.list-title {
+    font-size: var(--fs-sm);
+    color: var(--c-green);
+}
+
+.list-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    margin-left: var(--sp-1);
+}
+
+.list-empty {
+    margin: 0;
+    font-size: var(--fs-xs);
+    color: var(--c-muted);
+}
+
+/* List entry row */
+.entry-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-2);
+    animation: entry-in var(--dur) var(--ease-out);
+}
+
+.entry-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.entry-index {
+    flex-shrink: 0;
+    font-size: var(--fs-sm);
+    color: var(--c-fg-secondary);
+    line-height: var(--control-h);
+}
+
+/* Primitive entry: inline */
+.is-entry:not(.is-group-entry) {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+
+    .value-slot {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+/* Group entry: stacked */
+.is-group-entry > .entry-index {
+    display: block;
+    line-height: 32px;
+}
+
+.is-group-entry > .value-slot > .list-block {
+    margin-top: 0;
+}
+
+/* ---- empty state ---- */
+.empty-body {
+    padding: var(--sp-5);
+}
+
+.empty-line {
+    margin: 0 0 var(--sp-2);
+    font-size: var(--fs-sm);
+}
+
+@keyframes entry-in {
     from {
         opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
+        transform: translateY(-4px);
     }
 }
 
-/* Enhanced Input Styling */
-::ng-deep input.p-inputtext {
-    font-size: 0.95rem;
-    font-weight: 500;
-}
+@media (max-width: 640px) {
+    .data-card {
+        padding: var(--sp-4);
+    }
 
-::ng-deep input.p-inputtext::placeholder {
-    color: #94a3b8;
-    font-weight: 400;
-}
-
-/* Section Headers */
-.section-header {
-    position: relative;
-    padding-left: 1rem;
-}
-
-.section-header::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 60%;
-    background: linear-gradient(180deg, var(--primary-500), var(--secondary-500));
-    border-radius: 2px;
-}
-
-/* Subtask Container */
-.subtask-container {
-    background: linear-gradient(135deg, rgba(250, 245, 255, 0.8), rgba(245, 243, 255, 0.6));
-    border-radius: 12px;
-    padding: 1.25rem;
-    border-left: 4px solid var(--primary-500);
-    border: 1px solid rgba(124, 58, 237, 0.15);
-}
-
-/* Delete Button Enhancements */
-::ng-deep .p-button-danger.p-button-text {
-    color: #ef4444 !important;
-    border-radius: 999px !important;
-}
-
-::ng-deep .p-button-danger.p-button-text:hover {
-    background: rgba(239, 68, 68, 0.08) !important;
-    color: #dc2626 !important;
-}
-
-/* Tooltip Enhancements */
-::ng-deep .p-tooltip {
-    font-size: 0.875rem;
-    padding: 0.5rem 0.75rem;
-}
-
-::ng-deep .p-tooltip .p-tooltip-text {
-    background: rgba(53, 59, 71, 0.523);
-    color: white;
-    border-radius: 8px;
-    font-weight: 500;
-    padding: 2px 8px !important;
+    .list-block {
+        padding: var(--sp-3);
+    }
 }

@@ -1,67 +1,56 @@
-<div class="hero-section">
-    <!-- Animated Background Elements -->
-    <div class="hero-bg-decoration">
-        <div class="floating-circle circle-1"></div>
-        <div class="floating-circle circle-2"></div>
-        <div class="floating-circle circle-3"></div>
-    </div>
-
-    <!-- Hero Content -->
+<section class="hero-section" aria-labelledby="hero-title">
     <div class="hero-content">
-        <!-- Main Headline -->
-        <div class="hero-headline">
-            <h1 class="hero-title">
-                The Application Modeling <span class="magic-text">Laboratory</span>
-            </h1>
-            <p class="hero-subtitle">
-                Experiment, architect, and build perfect JSON models for your applications.
-                Define custom blueprints and generate complex hierarchical JSON effortlessly.
-            </p>
-        </div>
+        <span class="hero-badge">// json builder for everyone</span>
 
-        <!-- Feature Highlights -->
+        <h1 class="hero-title" id="hero-title">
+            The Application Modeling <span class="hero-accent">Laboratory</span>
+        </h1>
+        <p class="hero-subtitle">
+            Experiment, architect, and build perfect JSON models for your applications.
+            Define custom blueprints and generate complex hierarchical JSON effortlessly.
+        </p>
+
+        <!-- Boot sequence -->
+        <div class="term-window hero-terminal" aria-hidden="true">
+            <div class="term-titlebar">
+                <span class="term-dots"><i></i><i></i><i></i></span>
+                <span class="term-comment">myaml-lab — zsh</span>
+            </div>
+            <div class="boot">
+                <div class="boot-line"><span class="prompt">$&nbsp;</span><span class="typed">myaml init</span></div>
+                <div class="boot-line step-1"><span class="muted">&gt;</span> loading blueprint engine... <span class="ok">ok</span></div>
+                <div class="boot-line step-2"><span class="muted">&gt;</span> preparing live preview... <span class="ok">ok</span></div>
+                <div class="boot-line step-3"><span class="prompt">&gt;</span> ready<span class="cursor"></span></div>
+            </div>
+        </div>
+        <p class="sr-only">myaml init: blueprint engine loaded, live preview ready.</p>
+
         <div class="feature-grid">
             <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="pi pi-sitemap"></i>
-                </div>
-                <h3 class="feature-title">Dynamic Blueprinting</h3>
-                <p class="feature-description">Define keys, types, and parent-child hierarchies</p>
-            </div>
-
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="pi pi-eye"></i>
-                </div>
-                <h3 class="feature-title">Real-time Preview</h3>
-                <p class="feature-description">See your JSON update instantly</p>
+                <span class="feature-icon" aria-hidden="true"><i class="pi pi-sitemap"></i></span>
+                <h2 class="feature-title">dynamic_blueprinting()</h2>
+                <p class="feature-description">Define keys, types, and parent-child hierarchies.</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="pi pi-heart"></i>
-                </div>
-                <h3 class="feature-title">Free Forever</h3>
-                <p class="feature-description">No limits, no subscriptions, ever</p>
+                <span class="feature-icon" aria-hidden="true"><i class="pi pi-eye"></i></span>
+                <h2 class="feature-title">realtime_preview()</h2>
+                <p class="feature-description">See your JSON update instantly.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon" aria-hidden="true"><i class="pi pi-download"></i></span>
+                <h2 class="feature-title">one_click_export()</h2>
+                <p class="feature-description">Copy or download clean, valid JSON in a click.</p>
             </div>
         </div>
 
-        <!-- Call to Action -->
         <div class="hero-cta">
-            <button class="cta-button primary-cta" (click)="scrollToBuilder()">
-                <span>Start Building Now</span>
-                <i class="pi pi-arrow-down"></i>
+            <button type="button" class="btn btn-primary cta-button" (click)="scrollToBuilder()">
+                <span>$ start_building</span>
+                <i class="pi pi-arrow-down" aria-hidden="true"></i>
             </button>
-            <div class="trust-badge">
-                <i class="pi pi-check-circle"></i>
-                <span>Trusted by thousands of developers</span>
-            </div>
+            <p class="trust-badge"><span class="prompt">[✓]</span> trusted by thousands of developers</p>
         </div>
     </div>
-
-    <!-- Scroll Indicator
-    <div class="scroll-indicator">
-        <div class="scroll-arrow"></div>
-    </div> -->
-</div>
+</section>

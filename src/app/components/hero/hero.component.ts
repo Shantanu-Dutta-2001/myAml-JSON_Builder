@@ -10,9 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HeroComponent {
 
-    /**
-     * Smooth scroll to the builder section
-     */
+    // Smooth scroll to the builder.
     scrollToBuilder(): void {
         const builderSection = document.getElementById('builder-section');
         if (builderSection) {

@@ -5,9 +5,7 @@ import { JsonStateService } from '../../services/json-state.service';
 import { SchemaField, FieldType, DynamicSchema } from '../../models/schema.model';
 import { Observable } from 'rxjs';
 
-// PrimeNG v21
-import { InputText } from 'primeng/inputtext';
-import { Button } from 'primeng/button';
+// PrimeNG
 import { Select } from 'primeng/select';
 import { Tooltip } from 'primeng/tooltip';
 import { Checkbox } from 'primeng/checkbox';
@@ -19,8 +17,6 @@ import { ConfirmationService } from 'primeng/api';
     imports: [
         CommonModule,
         FormsModule,
-        Button,
-        InputText,
         Select,
         Tooltip,
         Checkbox
@@ -32,16 +28,17 @@ export class SchemaBuilderComponent implements OnInit {
 
     schema$: Observable<DynamicSchema>;
 
+    // `hint` is shown under each option.
     fieldTypes = [
-        { label: 'String', value: 'string' },
-        { label: 'Number (Decimal)', value: 'number' },
-        { label: 'Integer', value: 'integer' },
-        { label: 'Boolean', value: 'boolean' },
-        { label: 'Object', value: 'object' },
-        { label: 'Array', value: 'array' },
-        { label: 'Date', value: 'date' },
-        { label: 'Enum / Dropdown', value: 'enum' },
-        { label: 'Null', value: 'null' }
+        { label: 'Text (string)', value: 'string', hint: 'Words or sentences, e.g. "hello"' },
+        { label: 'Number (decimal)', value: 'number', hint: 'Any number, e.g. 3.14' },
+        { label: 'Whole number (integer)', value: 'integer', hint: 'No decimals, e.g. 42' },
+        { label: 'Yes/No (boolean)', value: 'boolean', hint: 'Either true or false' },
+        { label: 'Group (object)', value: 'object', hint: 'Holds named fields inside it' },
+        { label: 'List (array)', value: 'array', hint: 'Holds many entries of the same kind' },
+        { label: 'Date', value: 'date', hint: 'Picked from a calendar' },
+        { label: 'Choice (enum)', value: 'enum', hint: 'One value from a list you define' },
+        { label: 'Empty (null)', value: 'null', hint: 'Always empty: a placeholder value' }
     ];
 
     constructor(private jsonState: JsonStateService, private confirmationService: ConfirmationService) {
@@ -72,7 +69,7 @@ export class SchemaBuilderComponent implements OnInit {
             return;
         }
 
-        // Trigger generic update to sync the state
+        // Resync state
         this.jsonState.updateSchema({ fields: [...this.jsonState.currentSchema.fields] });
     }
 
@@ -115,8 +112,7 @@ export class SchemaBuilderComponent implements OnInit {
         }
     }
 
-    // Confirms before removing a field at any level (root, object child, or array-item grandchild),
-    // naming both the field and where it lives so the warning is specific rather than generic.
+    // Confirm before deleting a field at any level.
     confirmRemoveField(field: SchemaField, index: number, parentFields?: SchemaField[], parentDescription?: string) {
         const keyLabel = this.escapeHtml(field.key || '(unnamed field)');
         const fromClause = parentDescription ? ` from ${parentDescription}` : '';
@@ -138,7 +134,7 @@ export class SchemaBuilderComponent implements OnInit {
         return div.innerHTML;
     }
 
-    // Human-readable "where this field lives" fragments for the confirm-delete message, per level.
+    // "Where it lives" text for the delete message.
     childParentLabel(parentField: SchemaField): string {
         return `"${this.escapeHtml(parentField.label || parentField.key)}"`;
     }
@@ -155,9 +151,7 @@ export class SchemaBuilderComponent implements OnInit {
     }
 
     // --- KEY RENAME HANDLERS ---
-    // One-way [ngModel] + these handlers (instead of [(ngModel)]) so `field.key` still holds the
-    // OLD key when the handler runs, letting us migrate any already-entered data to the new key
-    // before the schema resync, instead of losing it.
+    // One-way [ngModel] so the old key is still known here and its data can be moved.
 
     onRootKeyChange(field: SchemaField, newKey: string) {
         const oldKey = field.key;
@@ -181,8 +175,7 @@ export class SchemaBuilderComponent implements OnInit {
     }
 
     // --- REQUIRED / PLACEHOLDER ---
-    // These mutate the field reference directly and resync (same pattern as onTypeChange), which
-    // works correctly at any nesting level without needing an index into the wrong array.
+    // Mutate the field in place, then resync; works at any depth.
 
     toggleRequired(field: SchemaField, required: boolean) {
         field.required = required;
@@ -199,7 +192,7 @@ export class SchemaBuilderComponent implements OnInit {
     }
 
     // --- VALIDATION ---
-    // Non-blocking: flags empty/duplicate keys visually without preventing the edit.
+    // Non-blocking: flags empty or duplicate keys.
 
     isKeyInvalid(key: string, siblings: SchemaField[] | undefined, ownIndex: number): boolean {
         if (!key || !key.trim()) return true;
@@ -209,5 +202,15 @@ export class SchemaBuilderComponent implements OnInit {
 
     trackByFn(index: number) {
         return index;
+    }
+
+    // --- DISPLAY HELPERS ---
+
+    pad(n: number): string {
+        return n < 10 ? '0' + n : String(n);
+    }
+
+    typeLabel(type: FieldType): string {
+        return this.fieldTypes.find(t => t.value === type)?.label ?? type;
     }
 }

@@ -26,7 +26,7 @@ describe('App', () => {
   it('should link to release notes from the header', async () => {
     const harness = await RouterTestingHarness.create('/');
     const pill = (harness.routeNativeElement as HTMLElement).querySelector('a.update-pill');
-    expect(pill?.textContent).toContain('View Last Update');
+    expect(pill?.textContent).toContain('changelog');
     expect(pill?.getAttribute('target')).toBe('_blank');
   });
 

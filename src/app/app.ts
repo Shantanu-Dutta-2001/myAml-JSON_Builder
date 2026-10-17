@@ -8,7 +8,14 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   standalone: true,
   imports: [RouterOutlet, ToastModule, ConfirmDialogModule],
   template: `
-    <p-toast></p-toast>
+    <p-toast position="bottom-right">
+      <ng-template #message let-message>
+        <div class="term-toast">
+          <span class="term-toast-tag" [class.err]="message.severity === 'error'">[{{ message.severity === 'error' ? 'err' : 'ok' }}]</span>
+          <span>{{ message.detail }}</span>
+        </div>
+      </ng-template>
+    </p-toast>
     <p-confirmDialog [breakpoints]="{'640px': '92vw'}" styleClass="delete-confirm-dialog"></p-confirmDialog>
     <router-outlet></router-outlet>
   `
