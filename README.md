@@ -5,7 +5,7 @@
 [![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)](https://github.com/Shantanu-Dutta-2001/myAml)
 [![License](https://img.shields.io/badge/License-MIT-gray?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-**My Application Modeling Laboratory** — A sophisticated tool for developers to experiment, architect, and build perfect JSON models. Featuring a "Developer Terminal" aesthetic (green-on-black, monospace, IDE-style status bar) and infinite recursive nesting support.
+**My Application Modeling Laboratory** — A form-based JSON builder that lets business analysts and other non-technical teammates create release notes and other JSON documents on their own, without asking a developer to hand-write them. Developers design the structure once; anyone can fill it in and export valid JSON. Featuring a "Developer Terminal" aesthetic (green-on-black, monospace, IDE-style status bar) and infinite recursive nesting support.
 
 ---
 
