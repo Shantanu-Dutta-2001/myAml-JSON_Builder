@@ -5,7 +5,7 @@
 [![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)](https://github.com/Shantanu-Dutta-2001/myAml)
 [![License](https://img.shields.io/badge/License-MIT-gray?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-**My Application Modeling Laboratory** — A sophisticated tool for developers to experiment, architect, and build perfect JSON models. Featuring a modern "Violet Glass" aesthetic and infinite recursive nesting support.
+**My Application Modeling Laboratory** — A sophisticated tool for developers to experiment, architect, and build perfect JSON models. Featuring a "Developer Terminal" aesthetic (green-on-black, monospace, IDE-style status bar) and infinite recursive nesting support.
 
 ---
 
@@ -14,7 +14,7 @@
 - **🎯 Precision Blueprinting**: Define your JSON schema with a rich set of types: String, Number, Integer, Boolean, Object, Array, Date, Enum, and Null.
 - **🧬 Deep Nesting**: Architect complex, recursive structures (e.g., Arrays of Objects containing deeply nested children) with zero friction.
 - **⚡ Live Preview**: Instant JSON feedback as you iterate on your schema or data.
-- **💎 Premium UI**: A curated "Violet Glass" design system built for focus and aesthetic pleasure.
+- **💎 Premium UI**: A "Developer Terminal" theme: prompt-style inputs, line-numbered syntax-highlighted preview and an IDE status bar. All colours, spacing and fonts are CSS tokens in `src/styles.scss`.
 - **⌨️ Developer Friendly**: Optimized focus management for seamless typing in complex nested forms.
 - **📰 Release Notes**: A *View Last Update* pill in the header opens a version-by-version changelog in a new tab.
 
@@ -26,7 +26,7 @@
 | :--- | :--- |
 | **Framework** | [Angular 20](https://angular.io/) (Standalone) |
 | **UI Kit** | [PrimeNG 20](https://primeng.org/) |
-| **Styling** | SCSS + PrimeFlex + Glassmorphism Tokens |
+| **Styling** | SCSS design tokens + PrimeNG terminal preset |
 | **State** | Reactive RxJS State Management |
 | **Routing** | Angular Router (`/` builder, `/release-notes`) |
 | **Testing** | [Vitest](https://vitest.dev/) + jsdom |

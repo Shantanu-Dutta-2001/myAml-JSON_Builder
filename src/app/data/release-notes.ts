@@ -9,8 +9,35 @@ export interface ReleaseNote {
     sections: ReleaseNoteSection[];
 }
 
-// Newest first — the first entry is treated as the "last update" shown in the header pill.
+// Newest first; the first entry is the latest update.
 export const RELEASE_NOTES: ReleaseNote[] = [
+    {
+        version: 'v2.0.0',
+        date: '2026-10-17',
+        sections: [
+            {
+                title: 'Enhancement',
+                items: [
+                    'Brand-new "Developer Terminal" look: a dark, green-on-black theme with a monospace font, replacing the previous violet design.',
+                    'New MyAML logo, a "{M}" mark built from JSON braces, now used in the browser tab, header and release notes.',
+                    'Inputs now look like command-line prompts, and section titles read like terminal commands (e.g. "> data_blueprint").',
+                    'Data types now use plain-language names such as "Text (string)" and "Group (object)", each with a short explanation in the dropdown.',
+                    'The JSON preview now has line numbers and syntax colours, and highlights any line whose required field is still empty.',
+                    'A status bar at the bottom shows whether your blueprint or JSON is valid, plus field count, nesting depth and file size.',
+                    'On phones and tablets, the Editor can switch between your data and the JSON output with one tap.',
+                    'Refreshed home page with a terminal-style welcome and a new "one_click_export()" feature card.'
+                ]
+            },
+            {
+                title: 'Bug fixes & Improvements',
+                items: [
+                    'Better accessibility: visible focus outlines, keyboard-friendly tabs, larger touch targets and stronger text contrast.',
+                    'Animations are turned off automatically when your device asks for reduced motion.',
+                    'The release notes page now matches the new theme.'
+                ]
+            }
+        ]
+    },
     {
         version: 'v1.3.0',
         date: '2026-10-11',
