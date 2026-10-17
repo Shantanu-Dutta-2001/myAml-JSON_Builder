@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="MyAML logo">
+  <rect x="4" y="4" width="504" height="504" rx="120" fill="#0B0F0C" stroke="#1F2B22" stroke-width="4"/>
+  <!-- braces -->
+  <g fill="none" stroke="#E8F3EA" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
+    <path id="brace" d="M207 148 C176 148 162 160 162 192 V226 C162 246 152 256 132 256 C152 256 162 266 162 286 V320 C162 352 176 364 207 364"/>
+    <use href="#brace" transform="translate(512 0) scale(-1 1)"/>
+  </g>
+  <!-- "M" as a node graph -->
+  <g fill="#7CF29C" stroke="#7CF29C">
+    <path d="M221 232 V300 M291 232 V300" stroke-width="14" stroke-linecap="round"/>
+    <path d="M228 236 L250 262 M284 236 L262 262" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="221" cy="204" r="16" stroke="none"/>
+    <circle cx="291" cy="204" r="16" stroke="none"/>
+    <circle cx="256" cy="268" r="14" stroke="none"/>
+    <circle cx="221" cy="326" r="11" stroke="none"/>
+    <circle cx="291" cy="326" r="11" stroke="none"/>
+  </g>
+</svg>
